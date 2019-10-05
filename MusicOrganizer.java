@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * A class to hold details of audio tracks.
@@ -47,6 +48,25 @@ public class MusicOrganizer
         tracks.add(track);
     }
     
+    
+    public void checkIndex(int index){
+        if(index < 0 || index >= tracks.size()){
+            System.out.println("The valid range is 0 to " +
+            (tracks.size()-1));
+            
+        }
+    }
+    
+    public boolean validIndex(int index)
+    {   
+        if(index >= 0 && index < tracks.size()) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    
     /**
      * Play a track in the collection.
      * @param index The index of the track to be played.
@@ -73,12 +93,25 @@ public class MusicOrganizer
      * List a track from the collection.
      * @param index The index of the track to be listed.
      */
-    public void listTrack(int index)
+    
+     /**
+     * List a file from the collection.
+     * @param index The index of the file to be listed.
+     */
+    public void listFile(int index)
     {
-        System.out.print("Track " + index + ": ");
-        Track track = tracks.get(index);
-        System.out.println(track.getDetails());
+        if(validIndex(index)) {
+            Track filename = tracks.get(index);
+            System.out.println(filename);
+        }
     }
+    
+    // public void listTrack(int index)
+    // {
+        // System.out.print("Track " + index + ": ");
+        // Track track = tracks.get(index);
+        // System.out.println(track.getDetails());
+    // }
     
     /**
      * Show a list of all the tracks in the collection.
@@ -110,12 +143,26 @@ public class MusicOrganizer
      * Remove a track from the collection.
      * @param index The index of the track to be removed.
      */
-    public void removeTrack(int index)
+    // public void removeTrack(int index)
+    // {
+        // if(indexValid(index)) {
+            // tracks.remove(index);
+        // }
+    // }
+    
+    
+    /**
+     * Remove a file from the collection.
+     * @param index The index of the file to be removed.
+     */
+    public void removeFile(int index)
     {
-        if(indexValid(index)) {
+        if(validIndex(index)) {
             tracks.remove(index);
         }
     }
+
+    
     
     /**
      * Play the first track in the collection, if there is one.
@@ -126,6 +173,9 @@ public class MusicOrganizer
             player.startPlaying(tracks.get(0).getFilename());
         }
     }
+    
+    
+
     
     /**
      * Stop the player.
@@ -170,4 +220,34 @@ public class MusicOrganizer
             addTrack(track);
         }
     }
+    
+     /**
+     * Select and play a single random track.
+     */
+    public void randomPlay()
+    {
+        if(tracks.size() > 0) {
+            Random randomExample = new Random();
+            int index = randomExample.nextInt(tracks.size());
+            playTrack(index);
+        }
+    }
+    
+    /**
+     * Play all tracks once in a random order.
+     */
+    public void randomPlayAll()
+    {
+        Random randomExample = new Random();
+        ArrayList<Track> remaining = new ArrayList<Track>(tracks);
+        while(remaining.size() > 0) {
+            int index = randomExample.nextInt(remaining.size());
+            Track test = remaining.remove(index);
+            player.playSample(test.getFilename());
+        }            
+    }
+
+
+    
 }
+
