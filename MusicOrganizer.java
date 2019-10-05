@@ -233,5 +233,18 @@ public class MusicOrganizer
         }
     }
     
+     /**
+     * Play all tracks once in a random order.
+     */
+    public void randomPlayAll()
+    {
+        Random randomExample = new Random();
+        ArrayList<Track> remaining = new ArrayList<Track>(tracks);
+        while(remaining.size() > 0) {
+            int index = randomExample.nextInt(remaining.size());
+            Track test = remaining.remove(index);
+            player.playSample(test.getFilename());
+        }            
+    }
 }
 
